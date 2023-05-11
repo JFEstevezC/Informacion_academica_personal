@@ -1,103 +1,76 @@
-from tkinter import *
-from tkinter import ttk
-def seguir():
-    global toplevel_medicina
-    toplevel_medicina = Toplevel()
-    toplevel_medicina.title("INFORMACIÓN MÉDICA")
-    toplevel_medicina.resizable(False, False)
-    toplevel_medicina.geometry("300x200")
-    toplevel_medicina.config(bg="white")
+import tkinter as tk
 
-    lb_peso = Label(toplevel_medicina, text = "PESO(Kg): ")
-    lb_peso.config(bg="white", fg="black", font=("Times New Roman", 12))
-    lb_peso.place(x=10, y=10)
+def calcular_imc():
+    peso = float(peso_entry.get())
+    altura = float(altura_entry.get()) / 100 
+    imc = peso / (altura ** 2)
+    imc_label.config(text="Tu IMC es: {:.2f}".format(imc))
 
-    entry_peso = Entry(toplevel_medicina)
-    entry_peso.config(bg="white", fg="black", font=("Times New Roman", 12), width=6)
-    entry_peso.focus_set()
-    entry_peso.place(x=90,y=10)
+def calcular_promedio():
+    nota1 = float(nota1_entry.get())
+    nota2 = float(nota2_entry.get())
+    nota3 = float(nota3_entry.get())
+    promedio = (nota1 + nota2 + nota3) / 3
+    promedio_label.config(text="Tu promedio de notas es: {:.2f}".format(promedio))
 
-    lb_altura = Label(toplevel_medicina, text = "ALTURA(m): ")
-    lb_altura.config(bg="white", fg="black", font=("Times New Roman", 12))
-    lb_altura.place(x=10, y=40)
+ventana = tk.Tk()
+ventana.title("Estado Estudiantil")
+ventana.resizable(True, True)
+ventana.minsize(300, 100)
 
-    entry_altura = Entry(toplevel_medicina)
-    entry_altura.config(bg="white", fg="black", font=("Times New Roman", 12), width=6)
-    entry_altura.focus_set()
-    entry_altura.place(x=110,y=40)
+nombre_label = tk.Label(ventana, text="Nombre:")
+nombre_label.grid(column=0, row=0, sticky= "w", padx=10, pady=10)
 
-    lb_peso = Label(toplevel_medicina, text = "Posee alguna enfermedad?: ")
-    lb_peso.config(bg="white", fg="black", font=("Times New Roman", 12))
-    lb_peso.place(x=10, y=70)
+nombre_entry = tk.Entry(ventana)
+nombre_entry.grid(column=1, row=0, sticky= "ew", padx=10)
 
-    
+edad_label = tk.Label(ventana, text="Edad:")
+edad_label.grid(column=0, row=1, sticky= "w", padx=10, pady=10)
 
-    bt_aceptar = Button(toplevel_medicina,text="Aceptar", command=aceptar)
-    bt_aceptar.place(x=100, y=150, width=100, height=30)
+edad_entry = tk.Entry(ventana)
+edad_entry.grid(column=1, row=1, sticky= "w", padx=10)
 
+peso_label = tk.Label(ventana, text="Peso (kg):")
+peso_label.grid(column=0, row=2, sticky= "w", padx=10, pady=10)
 
-def aceptar():
-    selecciones = ""
-    
-    nombre = nombre_entry.get()
-    direccion = direccion_entry.get()
-    provincia = var_provincia.get()
-    edad = edad_entry.get()
-    sexo = sexo_var.get()
-    if nombre:selecciones = "Nombre: "+nombre+"\n"
-    if direccion:selecciones += "Dirección: "+direccion+"\n"
-    if provincia != "Pulse para ver las permitidas":
-        selecciones += "Provincia: "+provincia+"\n"
-    selecciones += "Edad: "+edad+"\n"
-    selecciones_label.config(text=selecciones)
+peso_entry = tk.Entry(ventana)
+peso_entry.grid(column=1, row=2,  sticky= "w", padx=10)
 
-def cancelar():
-    nombre_entry.delete(0, "end")
-    direccion_entry.delete(0, "end")
-    var_provincia.set("Pulse para ver las permitidas")
-    edad_entry.delete(0, "end")
-    edad_entry.insert(0, 18)
-    sexo_var.set("Pulse sobre \"Sexo\"")
-    selecciones_label.config(text="")
+altura_label = tk.Label(ventana, text="Altura (cm):")
+altura_label.grid(column=0, row=3, sticky= "w", padx=10, pady=10)
 
-root = Tk()
-root.title("Información estudiantil-UIS SEDE SOCORRO")
-root.resizable(True, False)
-root.minsize(300, 100)
+altura_entry = tk.Entry(ventana)
+altura_entry.grid(column=1, row=3, sticky= "w", padx=10)
 
-var_provincia = StringVar()
-sexo_var = StringVar()
+nota1_label = tk.Label(ventana, text="Nota 1:")
+nota1_label.grid(column=0, row=4, sticky= "w", padx=10, pady=10)
 
-nombre_label = Label(text="Nombre:")
-nombre_entry = Entry()
-direccion_label = Label(text="Alura: ")
-direccion_entry = Entry()
-edad_label= Label(text="Edad: ")
-edad_entry =  Entry()
+nota1_entry = tk.Entry(ventana)
+nota1_entry.grid(column=1, row=4, sticky= "w", padx=10)
 
+nota2_label = tk.Label(ventana, text="Nota 2:")
+nota2_label.grid(column=0, row=5, sticky= "w", padx=10, pady=10)
 
+nota2_entry = tk.Entry(ventana)
+nota2_entry.grid(column=1, row=5, sticky= "w", padx=10)
 
+nota3_label = tk.Label(ventana, text="Nota 3:")
+nota3_label.grid(column=0, row=6, sticky= "w", padx=10, pady=10)
 
-provincia_label = Label(text="Semestre:")
-provincia_menu = OptionMenu(root, var_provincia, "1", "2", "3", "4")
+nota3_entry = tk.Entry(ventana)
+nota3_entry.grid(column=1, row=6, sticky= "w", padx=10)
 
-selecciones_label = Label(text="", padx=10, justify="left")
-boton_aceptar = Button(text="ACEPTAR", command=seguir)
-boton_cancelar = Button(text="CANCELAR", command=cancelar)
+calcular_imc_button = tk.Button(ventana, text="Calcular IMC", command=calcular_imc)
+calcular_imc_button.grid(column=0, row=7)
 
-nombre_label.grid(row=0, column=0, sticky= "w", padx=10, pady=10)
-nombre_entry.grid(row=0, column=1, sticky= "ew", padx=10)
-direccion_label.grid(row=1, column=0, sticky= "w", padx=10, pady=10)
-direccion_entry.grid(row=1, column=1, sticky= "ew", padx=10)
-provincia_label.grid(row=2, column=0, sticky= "w", padx=10, pady=10)
-provincia_menu.grid(row=2, column=1, sticky= "w", padx=10)
-edad_label.grid(row=3, column=0, sticky= "w", padx=10, pady=10)
-edad_entry.grid(row=3, column=1, sticky= "w", padx=10)
+imc_label = tk.Label(ventana, text="")
+imc_label.grid(column=1, row=7)
 
-root.columnconfigure(1, weight=1)
+calcular_promedio_button = tk.Button(ventana, text="Calcular promedio de notas", command=calcular_promedio)
+calcular_promedio_button.grid(column=0, row=8)
 
-selecciones_label.grid(row=5, column=0, columnspan=2, sticky= "W")
-boton_aceptar.grid(row=6, column=0, padx=10, pady=10, sticky= "W")
-boton_cancelar.grid(row=6, column=1, padx=10, pady=10, sticky= "E")
+promedio_label = tk.Label(ventana, text="")
+promedio_label.grid(column=1, row=8)
 
-root.mainloop()
+# Mostrar la ventana
+ventana.mainloop()
